@@ -1,6 +1,11 @@
 spring:
   application:
     name: msavaliadorcredito
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 server:
   port: 0
@@ -14,3 +19,6 @@ eureka:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 
+ mq:
+   queues:
+     emissao-cartoes: emissao-cartoes
