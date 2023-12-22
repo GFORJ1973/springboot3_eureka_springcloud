@@ -2,10 +2,12 @@ package br.com.hgl.msavaliadorcredito.domain.model;
 
 import lombok.Data;
 
-@Data
-public class DadosCliente {
+import java.math.BigDecimal;
 
+@Data
+public class Cartao {
     private Long id;
     private String nome;
-    private Long idade;
+    private String bandeira;
+    private BigDecimal limiteBasico;
 }
