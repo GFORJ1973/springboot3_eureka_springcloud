@@ -19,6 +19,6 @@ eureka:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 
- mq:
-   queues:
-     emissao-cartoes: emissao-cartoes
+mq:
+  queues:
+    emissao-cartoes: emissao-cartoes
