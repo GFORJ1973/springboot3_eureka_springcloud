@@ -20,9 +20,12 @@ public class EmissaoCartaoSubscriber {
     private final ClienteCartaoRepository clienteCartaoRepository;
     @RabbitListener(queues = "emissao-cartoes")
     public void receberSolicitacaoEmissao(@Payload String payload){
+
         try {
+            System.out.println("Mensagem Fila: " + payload);
             var mapper = new ObjectMapper();
-            DadosSolicitacaoEmissaoCartao dadosSolicitacaoEmissaoCartao = mapper.readValue(payload, DadosSolicitacaoEmissaoCartao.class);
+            DadosSolicitacaoEmissaoCartao dadosSolicitacaoEmissaoCartao =
+                    mapper.readValue(payload, DadosSolicitacaoEmissaoCartao.class);
             Cartao cartao = cartaoRepository.findById(dadosSolicitacaoEmissaoCartao.getIdCartao()).orElseThrow();
             ClienteCartao clienteCartao = new ClienteCartao();
             clienteCartao.setCartao(cartao);

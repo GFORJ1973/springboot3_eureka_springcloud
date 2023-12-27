@@ -13,7 +13,7 @@ spring:
         database-platform: org.hibernate.dialect.PostgreSQLDialect
 
   rabbitmq:
-    host: cursomsrabbitmq
+    host: localhost
     port: 5672
     username: guest
     password: guest
@@ -28,3 +28,6 @@ eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
+mq:
+  queues:
+    emissao-cartoes: emissao-cartoes
