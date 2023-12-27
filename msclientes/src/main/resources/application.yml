@@ -2,12 +2,13 @@ spring:
   application:
     name: msclientes
   datasource:
+    driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/testeclientedb
     username: postgres
     password: 123
     jpa:
       hibernate:
-        ddl-auto: update
+        ddl-auto: create
         show-sql: true
         database-platform: org.hibernate.dialect.PostgreSQLDialect
 

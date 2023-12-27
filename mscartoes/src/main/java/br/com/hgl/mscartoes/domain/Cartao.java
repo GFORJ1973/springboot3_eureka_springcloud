@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 @Entity
+@Table(name = "cartao")
 @Data
 @NoArgsConstructor
 public class Cartao {

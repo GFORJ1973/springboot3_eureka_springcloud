@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -27,8 +28,9 @@ public class AvaliadorCreditoService {
 
     public SituacaoCliente obterSituacaoCliente(String cpf) throws DadosClientNotFoundException, ErroComunicacaoMicroservicesException {
         try {
-            ResponseEntity<DadosCliente> dadosClienteResponse = clienteResourceClient.dadosCliente(cpf);
+            ResponseEntity<List<DadosCliente>> dadosClienteResponse = clienteResourceClient.dadosCliente(cpf);
             ResponseEntity<List<CartaoCliente>> cartoesResponse = cartoesResourceClient.getCartoesByCliente(cpf);
+
 
             return SituacaoCliente
                     .builder()
@@ -49,15 +51,24 @@ public class AvaliadorCreditoService {
     public RetornoAvaliacaoCliente realizarAvaliacao(String cpf, Long renda)
             throws DadosClientNotFoundException, ErroComunicacaoMicroservicesException {
         try{
-            ResponseEntity<DadosCliente> dadosClienteResponseEntity = clienteResourceClient.dadosCliente(cpf);
+            ResponseEntity<List<DadosCliente>> dadosClienteResponseEntity = clienteResourceClient.dadosCliente(cpf);
             ResponseEntity<List<Cartao>> cartoesResponse = cartoesResourceClient.getCartoesRendaAte(renda);
 
             List<Cartao> cartoes = cartoesResponse.getBody();
+            Iterator<DadosCliente> iterator = dadosClienteResponseEntity.getBody().iterator();
+            DadosCliente dadosClienteRetorno = new DadosCliente();
+            while (iterator.hasNext()) {
+                dadosClienteRetorno = iterator.next();
+
+                System.out.println(dadosClienteRetorno);
+            }
+
+            DadosCliente finalDadosClienteRetorno = dadosClienteRetorno;
             var listaCartoesAprovados = cartoes.stream().map(cartao -> {
-                DadosCliente dadosCliente = dadosClienteResponseEntity.getBody();
+
 
                 BigDecimal limiteBasico = cartao.getLimiteBasico();
-                BigDecimal idadeBD = BigDecimal.valueOf(dadosCliente.getIdade());
+                BigDecimal idadeBD = BigDecimal.valueOf(finalDadosClienteRetorno.getIdade());
 
                 var fator = idadeBD.divide(BigDecimal.valueOf(10));
                 BigDecimal limiteAprovado = fator.multiply(limiteBasico);
